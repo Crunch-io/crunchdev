@@ -16,10 +16,10 @@ The pre-release version of the package can be pulled from GitHub using the [devt
 RStudio allows keyboard shortcuts to be bound to addins. The addins provided by crunchdev are designed to make iteration and test running quick and easy. *Note:* currently launching a terminal from RStudio requires installing [rstudioapi from feature/terminal](https://github.com/rstudio/rstudioapi/pull/52) and requires RStudio [version >= 1.1.331](https://dailies.rstudio.com/).
 
 * Test running — For all of the test addins a configuration dialog will appear with optional settings. When done (or return) is pressed, a new terminal will launch and the tests will be run in a new, clean session.
-  * Test all (Crunch) — test configuration preset to run all unit tests
-  * Test active doc (Crunch) — test configuration preset to run unit tests with the filter set for the active file (eg having `test-dataset-reference.R` active will prefill `dataset-reference` in the filter box)
-  * Test active doc integration (Crunch) — test configuration preset to run unit and integration tests with the filter set for the active file
-* Load all (Crunch) — tries to `logout()` before running `devtools::load_all()` this cleans up interactive iteration and reloading of Crunch packages, Since the `logout()` is run within `try()` this addin should be safe to remap `cmd/ctrl+shift+l` globally.
+  * Test all (Crunch) — test configuration preset to run all unit tests Suggest key binding: `shift+alt+u`
+  * Test active doc (Crunch) — test configuration preset to run unit tests with the filter set for the active file (eg having `test-dataset-reference.R` active will prefill `dataset-reference` in the filter box) Suggest key binding: `shift+cmd+u`
+  * Test active doc integration (Crunch) — test configuration preset to run unit and integration tests with the filter set for the active file Suggest key binding: `shift+cmd+i`
+* Load all (Crunch) — tries to `logout()` before running `devtools::load_all()` this cleans up interactive iteration and reloading of Crunch packages, Since the `logout()` is run within `try()` this addin should be safe to remap `shift+cmd+l` globally.
 
 ## For developers
 
