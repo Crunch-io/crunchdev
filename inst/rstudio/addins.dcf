@@ -1,20 +1,20 @@
-Name: Load all (crunch)
+Name: Load all (Crunch)
 Description: Tries to logout of Crunch, and then calls `devtools::load_all`
 Binding: load_all
 Interactive: true
 
 
-Name: Test all (crunch)
+Name: Test all (Crunch)
 Description: Test Crunch package with all of the correct setup
 Binding: test_crunch_all
 Interactive: true
 
-Name: Test active doc (crunch)
+Name: Test active doc (Crunch)
 Description: Test Crunch package with all of the correct setup
 Binding: test_crunch
 Interactive: true
 
-Name: Test active doc integration (crunch)
+Name: Test active doc integration (Crunch)
 Description: Test Crunch package with all of the correct setup
 Binding: test_crunch_int
 Interactive: true
