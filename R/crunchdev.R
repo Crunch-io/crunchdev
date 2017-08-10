@@ -21,12 +21,6 @@ load_all <- function(...) {
 }
 
 
-captain_hosts <- c("local" = "http://local.crunch.io:8080/api/",
-                   "stable" = "https://stable.crunch.io/api/",
-                   "test01" = "https://test01.crunch.io/api/")
-user_hosts <- c("alpha" = "https://alpha.crunch.io/api/")
-
-
 #' Function to configure and kick off tests of Crunch packages
 #'
 #' Gets document context, and then presents the test_gadget which has
@@ -52,7 +46,7 @@ test_crunch <- function(filter = NULL, ...) {
 
     test_opts <- test_gadget(filter = filter, ...)
 
-    if (test_opts$host %in% captain_hosts) {
+    if (test_opts$host %in% envOrOption("crunch.test.hosts")) {
         user <- sprintf("R_TEST_USER=%s", envOrOption("test.user"))
         pw <- sprintf("R_TEST_PW=%s", envOrOption("test.pw"))
     } else {

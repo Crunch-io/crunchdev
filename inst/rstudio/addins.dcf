@@ -3,7 +3,6 @@ Description: Tries to logout of Crunch, and then calls `devtools::load_all`
 Binding: load_all
 Interactive: true
 
-
 Name: Test all (Crunch)
 Description: Test Crunch package with all of the correct setup
 Binding: test_crunch_all
