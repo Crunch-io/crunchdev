@@ -1,0 +1,27 @@
+Package: crunchdev
+Type: Package
+Title: Development tools for Crunch's R packages
+Description: Provides a number of tools to ease development of Crunch's R 
+    packages. Including RStudio addins that make testing quicker and more
+    flexible within RStudio.
+Version: 0.1.0
+Date: 2017-08-09
+Authors@R: person("Jonathan", "Keane", role=c("aut", "cre"), email="jon@crunch.io")
+Author: Jonathan Keane [aut, cre]
+Maintainer: Jonathan Keane <jon@crunch.io>
+URL: https://github.com/Crunch-io/crunchdev
+BugReports: https://github.com/jonkeane/Crunch-io/issues
+License: LGPL (>= 3)
+Depends:
+    R (>= 3.0.0)
+Imports:
+    crunch
+Suggests:
+    covr,
+    devtools,
+    miniUI (>= 0.1.1),
+    shiny,
+    testthat,
+    rstudioapi (> 0.6.0)
+RoxygenNote: 6.0.1
+Roxygen: list(markdown = TRUE)
