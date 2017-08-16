@@ -40,7 +40,8 @@ test_gadget <- function(filter, test_type = "unit") {
 
 
     }
-    shiny::runGadget(ui, server, viewer = shiny::dialogViewer("Crunch test", width = 325, height = 375))
+    shiny::runGadget(ui, server,
+                     viewer = shiny::dialogViewer("Crunch test", width = 325, height = 375))
 }
 
 return_values <- function(input) {

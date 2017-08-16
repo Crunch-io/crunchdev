@@ -47,19 +47,19 @@ test_crunch <- function(filter = NULL, ...) {
     test_opts <- test_gadget(filter = filter, ...)
 
     if (test_opts$host %in% envOrOption("crunch.test.hosts")) {
-        user <- sprintf("R_TEST_USER=%s", envOrOption("test.user"))
-        pw <- sprintf("R_TEST_PW=%s", envOrOption("test.pw"))
+        user <- envOrOption("test.user")
+        pw <- envOrOption("test.pw")
     } else {
-        user <- sprintf("R_TEST_USER=%s", envOrOption("crunch.email"))
-        pw <- sprintf("R_TEST_PW=%s", envOrOption("crunch.pw"))
+        user <- envOrOption("crunch.email")
+        pw <- envOrOption("crunch.pw")
     }
 
-    test_cmd <- sprintf("R --slave -e 'options(crunch.check.updates=FALSE); devtools::test(filter=\"%s\")'", test_opts$filter)
-    integration <- sprintf("INTEGRATION=%s",as.character(test_opts$type == "integration"))
-    api <- sprintf("R_TEST_API=%s",test_opts$host)
-    rstudioapi::terminalExecute(
+    test_cmd <- sprintf("R --slave -e 'options(crunch.check.updates=FALSE); devtools::test(filter=\"%s\")' \n", test_opts$filter)
+    integration <- as.character(test_opts$type == "integration")
+    api <- test_opts$host
+    crunch_terminal(
         test_cmd,
-        env=c(api, integration, user, pw))
+        env=c(R_TEST_API=api, INTEGRATION=integration, R_TEST_USER=user, R_TEST_PW=pw))
 }
 
 # copied directly from crunch, should be moved to crunchdev eventually
