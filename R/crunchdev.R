@@ -54,7 +54,7 @@ test_crunch <- function(filter = NULL, ...) {
         pw <- envOrOption("crunch.pw")
     }
 
-    test_cmd <- sprintf("R --slave -e 'options(crunch.check.updates=FALSE); devtools::test(filter=\"%s\")' \n", test_opts$filter)
+    test_cmd <- sprintf("R --slave -e 'library(httptest); options(crunch.check.updates=FALSE); devtools::test(filter=\"%s\")' \n", test_opts$filter)
     integration <- as.character(test_opts$type == "integration")
     api <- test_opts$host
     crunch_terminal(
