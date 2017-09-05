@@ -77,3 +77,18 @@ envOrOption <- function (opt) {
 
 test_crunch_int <- function() test_crunch(filter=NULL, test_type="integration")
 test_crunch_all <- function() test_crunch(filter=".*")
+
+
+#' CHeck package coverage and shine the result
+#'
+#' A convenience method for `covr::shine(covr::package_coverage())`
+#'
+#' @param ... options passed to `package_coverage`
+#'
+#' @return nothing
+#'
+#' @export
+shine_covr <- function(...) {
+    pkg_coverage <- covr::package_coverage(...)
+    covr::shine(pkg_coverage)
+}

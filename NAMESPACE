@@ -2,4 +2,5 @@
 
 export(load_all)
 export(reload_test_data)
+export(shine_covr)
 export(test_crunch)
