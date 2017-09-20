@@ -39,7 +39,7 @@ mrdf.setup <- function (dataset, pattern="mr_", name=ifelse(is.null(selections),
                                                             "CA", "MR"), selections=NULL) {
     cast.these <- grep(pattern, names(dataset))
     dataset[cast.these] <- lapply(dataset[cast.these],
-                                  castVariable, "categorical")
+                                  crunch:::castVariable, "categorical")
     if (is.null(selections)) {
         dataset[[name]] <- makeArray(dataset[cast.these], name=name)
     } else {
