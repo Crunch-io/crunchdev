@@ -46,12 +46,12 @@ test_crunch <- function(filter = NULL, ...) {
 
     test_opts <- test_gadget(filter = filter, ...)
 
-    if (test_opts$host %in% envOrOption("crunch.test.hosts")) {
-        user <- envOrOption("test.user")
-        pw <- envOrOption("test.pw")
+    if (test_opts$host %in% crunch::envOrOption("crunch.test.hosts")) {
+        user <- crunch::envOrOption("test.user")
+        pw <- crunch::envOrOption("test.pw")
     } else {
-        user <- envOrOption("crunch.email")
-        pw <- envOrOption("crunch.pw")
+        user <- crunch::envOrOption("crunch.email")
+        pw <- crunch::envOrOption("crunch.pw")
     }
 
     test_cmd <- sprintf("R --slave -e 'library(httptest); options(crunch.check.updates=FALSE); devtools::test(filter=\"%s\")' \n", test_opts$filter)
@@ -60,19 +60,6 @@ test_crunch <- function(filter = NULL, ...) {
     crunch_terminal(
         test_cmd,
         env=c(R_TEST_API=api, INTEGRATION=integration, R_TEST_USER=user, R_TEST_PW=pw))
-}
-
-# copied directly from crunch, should be moved to crunchdev eventually
-envOrOption <- function (opt) {
-    ## .Rprofile options are like "test.api", while env vars are "R_TEST_API"
-    envvar.name <- paste0("R_", toupper(gsub(".", "_", opt, fixed=TRUE)))
-    envvar <- Sys.getenv(envvar.name)
-    if (nchar(envvar)) {
-        ## Let environment variable override .Rprofile, if defined
-        return(envvar)
-    } else {
-        return(getOption(opt))
-    }
 }
 
 test_crunch_int <- function() test_crunch(filter=NULL, test_type="integration")
