@@ -6,11 +6,28 @@
 The crunchdev package offers a number of convenience functions and [RStudio addins](https://rstudio.github.io/rstudioaddins/) to make developing crunch packages quicker and faster.
 
 ## Installing
-
 The pre-release version of the package can be pulled from GitHub using the [devtools](https://github.com/hadley/devtools) package:
 
     # install.packages("devtools")
     devtools::install_github("Crunch-io/crunchdev")
+
+## Configuration
+Before using `crunchdev` there are a few options that should be added to your `~/.Rprofile`:
+
+1. host name url maps --- there are two groups: `user.hosts` and `test.hosts` the first uses user authentication, and the second uses test user authentication. Each list can have any number of hostnames and urls.
+
+    crunchdev.user.hosts=c("app" = "https://app.crunch.io/api/"),
+    crunchdev.test.hosts=c(
+	       "local" = "http://local.crunch.io/api/",
+	       "testing server" = "https://testing.crunch.io/api/")
+	       
+1. authentication maps --- again, there are two groups: `user.auth` and `test.auth` the first is used for all hosts in `crunchdev.user.hosts`, and the second is used for all hosts in `crunchdev.test.hosts`. Each one should only contain one email and password.
+
+    crunchdev.user.auth=c("email" = "magic.user@crunch.io",
+                          "pw" = "t0pSecretP@ssw0rD"),
+    crunchdev.test.auth=c("email" = "magic.testuser@crunch.io",
+                          "pw" = "t0pSecretP@ssw0rD")
+	       
 
 ## Addins
 RStudio allows keyboard shortcuts to be bound to addins. The addins provided by crunchdev are designed to make iteration and test running quick and easy. *Note:* currently launching a terminal from RStudio requires installing [rstudioapi from feature/terminal](https://github.com/rstudio/rstudioapi/pull/52) and requires RStudio [version >= 1.1.331](https://dailies.rstudio.com/).

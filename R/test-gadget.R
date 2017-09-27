@@ -1,5 +1,5 @@
 test_gadget <- function(filter, test_type = "unit") {
-    hosts <- c(crunch::envOrOption("crunch.test.hosts"), envOrOption("crunch.user.hosts"))
+    hosts <- c(crunch::envOrOption("crunchdev.test.hosts"), crunch::envOrOption("crunchdev.user.hosts"))
     names(hosts) <- paste0(names(hosts), " - ", hosts)
 
 
