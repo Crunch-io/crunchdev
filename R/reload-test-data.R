@@ -9,7 +9,7 @@ reload_test_data <- function () {
 
     message("Loading all types")
     ## Data frames to make datasets with
-    df <- data.frame(v1=c(rep(NA_real_, 5), rnorm(15)),
+    df <- data.frame(v1=c(rep(NA_real_, 5), stats::rnorm(15)),
                      v2=c(letters[1:15], rep(NA_character_, 5)),
                      v3=8:27,
                      v4=as.factor(LETTERS[2:3]),
@@ -53,8 +53,12 @@ mrdf.setup <- function (dataset, pattern="mr_", name=ifelse(is.null(selections),
 # copied directly from crunch, should be moved to crunchdev eventually
 newDatasetFromFixture <- function (path_prefix, filename) {
     ## Grab csv and json from "dataset-fixtures" and make a dataset
-    m <- fromJSON(file.path(path_prefix, "dataset-fixtures", paste0(filename, ".json")),
-                  simplifyVector=FALSE)
-    return(suppressMessages(createWithMetadataAndFile(m,
-                                                      file.path(path_prefix, "dataset-fixtures", paste0(filename, ".csv")))))
+    m <- crunch:::fromJSON(
+        file.path(path_prefix, "dataset-fixtures", paste0(filename, ".json")),
+        simplifyVector=FALSE)
+    return(suppressMessages(
+        createWithMetadataAndFile(
+            m,
+            file.path(path_prefix,"dataset-fixtures", paste0(filename, ".csv"))
+            )))
 }

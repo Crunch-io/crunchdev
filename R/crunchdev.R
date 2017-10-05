@@ -5,6 +5,9 @@
     invisible()
 }
 
+#' @import crunch
+NULL
+
 #' logout of Crunch before load_alling
 #'
 #' A replacement for [`devtools::load_all`] will try to logout before runing
@@ -16,7 +19,7 @@
 #'
 #' @export
 load_all <- function(...) {
-    try(crunch::logout())
+    try(logout())
     devtools::load_all(...)
 }
 
@@ -45,41 +48,37 @@ test_crunch <- function(filter = NULL, ...) {
     }
 
     test_opts <- test_gadget(filter = filter, ...)
-
-    if (test_opts$host %in% envOrOption("crunch.test.hosts")) {
-        user <- envOrOption("test.user")
-        pw <- envOrOption("test.pw")
-    } else {
-        user <- envOrOption("crunch.email")
-        pw <- envOrOption("crunch.pw")
-    }
+    opts <- setup_host_auth(test_opts)
 
     test_cmd <- sprintf("R --slave -e 'library(httptest); options(crunch.check.updates=FALSE); devtools::test(filter=\"%s\")' \n", test_opts$filter)
     integration <- as.character(test_opts$type == "integration")
-    api <- test_opts$host
     crunch_terminal(
         test_cmd,
-        env=c(R_TEST_API=api, INTEGRATION=integration, R_TEST_USER=user, R_TEST_PW=pw))
-}
-
-# copied directly from crunch, should be moved to crunchdev eventually
-envOrOption <- function (opt) {
-    ## .Rprofile options are like "test.api", while env vars are "R_TEST_API"
-    envvar.name <- paste0("R_", toupper(gsub(".", "_", opt, fixed=TRUE)))
-    envvar <- Sys.getenv(envvar.name)
-    if (nchar(envvar)) {
-        ## Let environment variable override .Rprofile, if defined
-        return(envvar)
-    } else {
-        return(getOption(opt))
-    }
+        env=c(R_TEST_API=opts$host, INTEGRATION=integration,
+              R_TEST_USER=opts$user, R_TEST_PW=opts$pw))
 }
 
 test_crunch_int <- function() test_crunch(filter=NULL, test_type="integration")
 test_crunch_all <- function() test_crunch(filter=".*")
 
+setup_host_auth <- function (opts) {
+    if (!grepl("https?://.*", opts$host)) {
+        all_hosts <- c(envOrOption("crunchdev.test.hosts"),
+                       envOrOption("crunchdev.user.hosts"))
+        opts$host <- all_hosts[opts$host]
+    }
 
-#' CHeck package coverage and shine the result
+    if (opts$host %in% envOrOption("crunchdev.test.hosts")) {
+        opts$user <- envOrOption("crunchdev.test.auth")[["email"]]
+        opts$pw <- envOrOption("crunchdev.test.auth")[["pw"]]
+    } else {
+        opts$user <- envOrOption("crunchdev.user.auth")[["email"]]
+        opts$pw <- envOrOption("crunchdev.user.auth")[["pw"]]
+    }
+    return(opts)
+}
+
+#' Check package coverage and shine the result
 #'
 #' A convenience method for `covr::shine(covr::package_coverage())`
 #'
@@ -92,3 +91,36 @@ shine_covr <- function(...) {
     pkg_coverage <- covr::package_coverage(...)
     covr::shine(pkg_coverage)
 }
+
+#' Setup Crunch to use a particular backend
+#'
+#' If the host provided is in the `crunchdev.test.hosts` group, test authentication will be set (`crunchdev.test.auth`). Otherwise, user authentication will be set. If `host` is not recognized, it will be passed to [crunch::setCrunchAPI()]
+#'
+#' @param host host to connect to (e.g. "app", "local")
+#' @param ... passed to [crunch::setCrunchAPI()]
+#'
+#' @return nothing
+#'
+#' @export
+setupCrunch <- function (host, ...) {
+    opts <- setup_host_auth(list("host" = host))
+
+    if (is.na(opts$host)) {
+        setCrunchAPI(host, ...)
+    } else {
+        options(
+            "crunch.api" = opts$host
+        )
+    }
+
+    options(
+        "crunch.email" = opts$user,
+        "crunch.pw" = opts$pw
+    )
+
+    message("Crunch will connect to ", getOption("crunch.api"),
+            " with ", getOption("crunch.email"))
+
+    return(invisible(opts))
+}
+

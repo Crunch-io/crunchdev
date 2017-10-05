@@ -2,7 +2,7 @@
 % Please edit documentation in R/crunchdev.R
 \name{shine_covr}
 \alias{shine_covr}
-\title{CHeck package coverage and shine the result}
+\title{Check package coverage and shine the result}
 \usage{
 shine_covr(...)
 }
