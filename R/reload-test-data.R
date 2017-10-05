@@ -5,7 +5,7 @@
 #'
 #' @export
 reload_test_data <- function () {
-    crunch::login()
+    login()
 
     message("Loading all types")
     ## Data frames to make datasets with
@@ -16,7 +16,7 @@ reload_test_data <- function () {
                      v5=as.Date(0:19, origin="1955-11-05"),
                      v6=TRUE,
                      stringsAsFactors=FALSE)
-    crunch::newDataset(df, name = "test ds")
+    newDataset(df, name = "test ds")
 
     mrdf <- data.frame(mr_1=c(1,0,1,NA_real_),
                        mr_2=c(0,0,1,NA_real_),
@@ -24,9 +24,9 @@ reload_test_data <- function () {
                        v4=as.factor(LETTERS[2:3]),
                        stringsAsFactors=FALSE)
     message("Loading cat array data")
-    mrdf.setup(crunch::newDataset(mrdf, name = "test-mrdf"))
+    mrdf.setup(newDataset(mrdf, name = "test-mrdf"))
     message("Loading multiple response data")
-    mrdf.setup(crunch::newDataset(mrdf, name = "test-mrdfmr"), selections = "1.0")
+    mrdf.setup(newDataset(mrdf, name = "test-mrdfmr"), selections = "1.0")
     message("Loading apidocs data")
     newDatasetFromFixture("./tests/testthat", "apidocs")
 
@@ -41,9 +41,9 @@ mrdf.setup <- function (dataset, pattern="mr_", name=ifelse(is.null(selections),
     dataset[cast.these] <- lapply(dataset[cast.these],
                                   crunch:::castVariable, "categorical")
     if (is.null(selections)) {
-        dataset[[name]] <- crunch::makeArray(dataset[cast.these], name=name)
+        dataset[[name]] <- makeArray(dataset[cast.these], name=name)
     } else {
-        dataset[[name]] <- crunch::makeMR(dataset[cast.these], name=name,
+        dataset[[name]] <- makeMR(dataset[cast.these], name=name,
                                   selections=selections)
     }
     return(dataset)
@@ -57,7 +57,7 @@ newDatasetFromFixture <- function (path_prefix, filename) {
         file.path(path_prefix, "dataset-fixtures", paste0(filename, ".json")),
         simplifyVector=FALSE)
     return(suppressMessages(
-        crunch::createWithMetadataAndFile(
+        createWithMetadataAndFile(
             m,
             file.path(path_prefix,"dataset-fixtures", paste0(filename, ".csv"))
             )))
