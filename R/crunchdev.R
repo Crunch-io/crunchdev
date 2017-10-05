@@ -93,7 +93,7 @@ shine_covr <- function(...) {
 #'
 #' If the host provided is in the `crunchdev.test.hosts` group, test authentication will be set (`crunchdev.test.auth`). Otherwise, user authentication will be set. If `host` is not recognized, it will be passed to [crunch::setCrunchAPI()]
 #'
-#' @param host host to connect to
+#' @param host host to connect to (e.g. "app", "local")
 #' @param ... passed to [crunch::setCrunchAPI()]
 #'
 #' @return nothing

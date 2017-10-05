@@ -5,18 +5,18 @@
 #'
 #' @export
 reload_test_data <- function () {
-    login()
+    crunch::login()
 
     message("Loading all types")
     ## Data frames to make datasets with
-    df <- data.frame(v1=c(rep(NA_real_, 5), rnorm(15)),
+    df <- data.frame(v1=c(rep(NA_real_, 5), stats::rnorm(15)),
                      v2=c(letters[1:15], rep(NA_character_, 5)),
                      v3=8:27,
                      v4=as.factor(LETTERS[2:3]),
                      v5=as.Date(0:19, origin="1955-11-05"),
                      v6=TRUE,
                      stringsAsFactors=FALSE)
-    newDataset(df, name = "test ds")
+    crunch::newDataset(df, name = "test ds")
 
     mrdf <- data.frame(mr_1=c(1,0,1,NA_real_),
                        mr_2=c(0,0,1,NA_real_),
@@ -24,9 +24,9 @@ reload_test_data <- function () {
                        v4=as.factor(LETTERS[2:3]),
                        stringsAsFactors=FALSE)
     message("Loading cat array data")
-    mrdf.setup(newDataset(mrdf, name = "test-mrdf"))
+    mrdf.setup(crunch::newDataset(mrdf, name = "test-mrdf"))
     message("Loading multiple response data")
-    mrdf.setup(newDataset(mrdf, name = "test-mrdfmr"), selections = "1.0")
+    mrdf.setup(crunch::newDataset(mrdf, name = "test-mrdfmr"), selections = "1.0")
     message("Loading apidocs data")
     newDatasetFromFixture("./tests/testthat", "apidocs")
 
@@ -41,9 +41,9 @@ mrdf.setup <- function (dataset, pattern="mr_", name=ifelse(is.null(selections),
     dataset[cast.these] <- lapply(dataset[cast.these],
                                   crunch:::castVariable, "categorical")
     if (is.null(selections)) {
-        dataset[[name]] <- makeArray(dataset[cast.these], name=name)
+        dataset[[name]] <- crunch::makeArray(dataset[cast.these], name=name)
     } else {
-        dataset[[name]] <- makeMR(dataset[cast.these], name=name,
+        dataset[[name]] <- crunch::makeMR(dataset[cast.these], name=name,
                                   selections=selections)
     }
     return(dataset)
@@ -53,8 +53,12 @@ mrdf.setup <- function (dataset, pattern="mr_", name=ifelse(is.null(selections),
 # copied directly from crunch, should be moved to crunchdev eventually
 newDatasetFromFixture <- function (path_prefix, filename) {
     ## Grab csv and json from "dataset-fixtures" and make a dataset
-    m <- fromJSON(file.path(path_prefix, "dataset-fixtures", paste0(filename, ".json")),
-                  simplifyVector=FALSE)
-    return(suppressMessages(createWithMetadataAndFile(m,
-                                                      file.path(path_prefix, "dataset-fixtures", paste0(filename, ".csv")))))
+    m <- crunch:::fromJSON(
+        file.path(path_prefix, "dataset-fixtures", paste0(filename, ".json")),
+        simplifyVector=FALSE)
+    return(suppressMessages(
+        crunch::createWithMetadataAndFile(
+            m,
+            file.path(path_prefix,"dataset-fixtures", paste0(filename, ".csv"))
+            )))
 }

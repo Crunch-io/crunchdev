@@ -7,7 +7,7 @@
 setupCrunch(host, ...)
 }
 \arguments{
-\item{host}{host to connect to}
+\item{host}{host to connect to (e.g. "app", "local")}
 
 \item{...}{passed to \code{\link[crunch:setCrunchAPI]{crunch::setCrunchAPI()}}}
 }
