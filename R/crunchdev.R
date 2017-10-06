@@ -5,9 +5,6 @@
     invisible()
 }
 
-#' @import crunch
-NULL
-
 #' logout of Crunch before load_alling
 #'
 #' A replacement for [`devtools::load_all`] will try to logout before runing
@@ -19,7 +16,7 @@ NULL
 #'
 #' @export
 load_all <- function(...) {
-    try(logout())
+    try(crunch::logout())
     devtools::load_all(...)
 }
 
@@ -63,17 +60,17 @@ test_crunch_all <- function() test_crunch(filter=".*")
 
 setup_host_auth <- function (opts) {
     if (!grepl("https?://.*", opts$host)) {
-        all_hosts <- c(envOrOption("crunchdev.test.hosts"),
-                       envOrOption("crunchdev.user.hosts"))
+        all_hosts <- c(crunch::envOrOption("crunchdev.test.hosts"),
+                       crunch::envOrOption("crunchdev.user.hosts"))
         opts$host <- all_hosts[opts$host]
     }
 
-    if (opts$host %in% envOrOption("crunchdev.test.hosts")) {
-        opts$user <- envOrOption("crunchdev.test.auth")[["email"]]
-        opts$pw <- envOrOption("crunchdev.test.auth")[["pw"]]
+    if (opts$host %in% crunch::envOrOption("crunchdev.test.hosts")) {
+        opts$user <- crunch::envOrOption("crunchdev.test.auth")[["email"]]
+        opts$pw <- crunch::envOrOption("crunchdev.test.auth")[["pw"]]
     } else {
-        opts$user <- envOrOption("crunchdev.user.auth")[["email"]]
-        opts$pw <- envOrOption("crunchdev.user.auth")[["pw"]]
+        opts$user <- crunch::envOrOption("crunchdev.user.auth")[["email"]]
+        opts$pw <- crunch::envOrOption("crunchdev.user.auth")[["pw"]]
     }
     return(opts)
 }
@@ -106,7 +103,7 @@ setupCrunch <- function (host, ...) {
     opts <- setup_host_auth(list("host" = host))
 
     if (is.na(opts$host)) {
-        setCrunchAPI(host, ...)
+        crunch::setCrunchAPI(host, ...)
     } else {
         options(
             "crunch.api" = opts$host
