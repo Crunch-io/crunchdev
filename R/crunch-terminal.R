@@ -1,10 +1,26 @@
-crunch_terminal <- function (cmd, env, term_id = "crunchdev") {
-    tryCatch(
-        rstudioapi::terminalActivate(term_id, show = TRUE),
-        error = function (e) {
-            # if activation fails, then create a new one
-            rstudioapi::terminalCreate(caption = term_id)
-        })
+crunch_terminal <- function (cmd, env, term_id = getOption("crunchdev.term"),
+                             term_caption = "crunchdev") {
+    # if there's no terminal id, create one
+    if (is.null(term_id)) {
+        # check if there are any extant term_caption terms
+        for (t_id in rstudioapi::terminalList()) {
+            cont <- rstudioapi::terminalContext(t_id)
+            if (cont$caption == term_caption) {
+                term_id <- t_id
+            }
+        }
+    }
+
+    if (is.null(term_id) || is.null(rstudioapi::terminalContext(term_id))) {
+        # if there is no terminal, then create a new one
+        term_id <- rstudioapi::terminalCreate(caption = term_caption)
+    }
+
+    # remember the terminal id
+    options(crunchdev.term = term_id)
+
+
+    rstudioapi::terminalActivate(term_id, show = TRUE)
     rstudioapi::terminalClear(term_id)
 
     # write, send, and remove env variables
@@ -25,3 +41,4 @@ write_env <- function (env) {
 make_env_strings <- function (env) {
     paste0('export ', names(env), "=", env, collapse='\n')
 }
+
