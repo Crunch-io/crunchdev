@@ -86,7 +86,7 @@ setup_host_auth <- function (opts) {
 #' @export
 shine_covr <- function(...) {
     pkg_coverage <- covr::package_coverage(...)
-    covr::shine(pkg_coverage)
+    covr::report(pkg_coverage)
 }
 
 #' Setup Crunch to use a particular backend
