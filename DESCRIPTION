@@ -15,7 +15,9 @@ License: LGPL (>= 3)
 Depends:
     R (>= 3.0.0)
 Imports:
-    crunch (>= 1.18.3)
+    crunch (>= 1.18.3),
+    httptest,
+    magrittr
 Suggests:
     covr,
     devtools,

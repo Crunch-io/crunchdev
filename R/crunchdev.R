@@ -47,7 +47,7 @@ test_crunch <- function(filter = NULL, ...) {
     test_opts <- test_gadget(filter = filter, ...)
     opts <- setup_host_auth(test_opts)
 
-    test_cmd <- sprintf("R --slave -e 'library(httptest); options(crunch.check.updates=FALSE); devtools::test(filter=\"%s\")' \n", test_opts$filter)
+    test_cmd <- sprintf("R --vanilla --quiet --no-save --no-restore -e 'library(httptest); options(crunch.check.updates=FALSE); devtools::test(filter=\"%s\")' \n", test_opts$filter)
     integration <- as.character(test_opts$type == "integration")
     crunch_terminal(
         test_cmd,
