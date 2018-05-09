@@ -22,4 +22,4 @@ redact_crunch <- function (response) {
 #' @param response the response to redact
 #'
 #' @export
-enable_crunch_redactor <- httptest::set_redactor(redact_crunch)
+enable_crunch_redactor <- function() httptest::set_redactor(redact_crunch)
