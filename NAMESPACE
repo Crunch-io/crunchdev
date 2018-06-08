@@ -2,6 +2,7 @@
 
 export(cubify)
 export(enable_crunch_redactor)
+export(loadBareCube)
 export(loadCube)
 export(load_all)
 export(reload_test_data)

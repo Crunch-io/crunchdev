@@ -7,7 +7,7 @@
 loadCube(filename)
 }
 \arguments{
-\item{filename}{a character filename to load teh fixture from}
+\item{filename}{a character filename to load the fixture from}
 }
 \value{
 a CrunchCube

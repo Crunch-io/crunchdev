@@ -4,10 +4,7 @@
 \alias{enable_crunch_redactor}
 \title{A quick shortcut to enable httptest redaction for Crunch payloads}
 \usage{
-enable_crunch_redactor(response)
-}
-\arguments{
-\item{response}{the response to redact}
+enable_crunch_redactor()
 }
 \description{
 A quick shortcut to enable httptest redaction for Crunch payloads

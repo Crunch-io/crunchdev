@@ -3,12 +3,27 @@
 
 #' Load a CrunchCube fixture from file
 #'
-#' @param filename a character filename to load teh fixture from
+#' @param filename a character filename to load the fixture from
 #'
 #' @return a CrunchCube
 #' @export
 loadCube <- function (filename) {
     crunch:::CrunchCube(jsonlite::fromJSON(filename, simplifyVector=FALSE)$value)
+}
+
+
+#' Load a CrunchCube fixture from minimal file
+#'
+#' Sometimes tests were written with cube fixtures that lacked  the
+#' `{"element": "shoji:view", "self": URL, "value":{}}` wrapper, this function
+#' reads those in.
+#'
+#' @param filename a character filename to load the fixture from
+#'
+#' @return a CrunchCube
+#' @export
+loadBareCube <- function (filename) {
+    crunch:::CrunchCube(jsonlite::fromJSON(filename, simplifyVector=FALSE))
 }
 
 #' Turn readable test expectations into an array

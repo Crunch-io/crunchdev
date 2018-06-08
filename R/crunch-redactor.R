@@ -19,7 +19,5 @@ redact_crunch <- function (response) {
 
 #' A quick shortcut to enable httptest redaction for Crunch payloads
 #'
-#' @param response the response to redact
-#'
 #' @export
 enable_crunch_redactor <- function() httptest::set_redactor(redact_crunch)
