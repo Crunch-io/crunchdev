@@ -1,5 +1,13 @@
-# Functions from crunch-test.R copied and exported here to be more easily
-# available without having to source crunch-test
+# Functions from crunch-test.R exported here to be more easily available without
+# having to source crunch-test
+
+#' @importFrom crunch temp.option temp.options datasets projects urls crDELETE
+#' @importFrom testthat with_mock skip
+NULL
+
+# datasets.start projects.start users.start will be undefined global functions
+# on source
+source(system.file("crunch-test.R", package="crunch"), local = TRUE)
 
 #' Load a CrunchCube fixture from file
 #'
@@ -7,24 +15,8 @@
 #'
 #' @return a CrunchCube
 #' @export
-loadCube <- function (filename) {
-    crunch:::CrunchCube(jsonlite::fromJSON(filename, simplifyVector=FALSE)$value)
-}
+loadCube <- loadCube
 
-
-#' Load a CrunchCube fixture from minimal file
-#'
-#' Sometimes tests were written with cube fixtures that lacked  the
-#' `{"element": "shoji:view", "self": URL, "value":{}}` wrapper, this function
-#' reads those in.
-#'
-#' @param filename a character filename to load the fixture from
-#'
-#' @return a CrunchCube
-#' @export
-loadBareCube <- function (filename) {
-    crunch:::CrunchCube(jsonlite::fromJSON(filename, simplifyVector=FALSE))
-}
 
 #' Turn readable test expectations into an array
 #'
@@ -33,19 +25,4 @@ loadBareCube <- function (filename) {
 #'
 #' @return an array with the contents of `...`` with the shape of `dims`
 #' @export
-cubify <- function (..., dims) {
-    ## Make readable test expectations for comparing cube output
-    ## Borrowed from Cube arrays, fixtures and cubes come in row-col-etc. order,
-    ## not column-major. Make array, then aperm the array back to order
-    data <- c(...)
-    d <- rev(vapply(dims, length, integer(1), USE.NAMES=FALSE))
-
-    out <- array(data, dim=d)
-    if (length(dims) > 1) {
-        ap <- seq_len(length(dims))
-        ap <- rev(ap)
-        out <- aperm(out, ap)
-    }
-    dimnames(out) <- dims
-    return(out)
-}
+cubify <- cubify

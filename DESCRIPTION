@@ -16,14 +16,15 @@ Depends:
     R (>= 3.0.0)
 Imports:
     crunch (>= 1.18.3),
+    magrittr,
     httptest,
-    magrittr
+    testthat
 Suggests:
     covr,
     devtools,
+    jsonlite,
     miniUI (>= 0.1.1),
     shiny,
-    testthat,
     rstudioapi (> 0.6.0)
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE)
