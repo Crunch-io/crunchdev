@@ -121,3 +121,16 @@ setupCrunch <- function (host, ...) {
     return(invisible(opts))
 }
 
+
+#' Style file
+#'
+#' Styles a file according to the crunch style guide.
+#'
+#' @param path Optional, the path of the file to style. If ommitted it is the
+#' active RStudio document.
+styleFile <- function(path) {
+    if (missing(path)) {
+        path <- rstudioapi::getActiveDocumentContext()$path
+    }
+    styler::style_file(transformers = styler::tidyverse_style(indent_by = 4))
+}

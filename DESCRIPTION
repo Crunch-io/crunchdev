@@ -19,6 +19,7 @@ Imports:
     magrittr,
     httptest,
     testthat
+    styler,
 Suggests:
     covr,
     devtools,
