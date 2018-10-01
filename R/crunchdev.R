@@ -1,6 +1,6 @@
 # Here's a good place to put your top-level package documentation
 
-.onAttach <- function (lib, pkgname="crunchdev") {
+.onAttach <- function(lib, pkgname = "crunchdev") {
     ## Put stuff here you want to run when your package is loaded
     invisible()
 }
@@ -51,17 +51,22 @@ test_crunch <- function(filter = NULL, ...) {
     integration <- as.character(test_opts$type == "integration")
     crunch_terminal(
         test_cmd,
-        env=c(R_TEST_API=opts$host, INTEGRATION=integration,
-              R_TEST_USER=opts$user, R_TEST_PW=opts$pw))
+        env = c(
+            R_TEST_API = opts$host, INTEGRATION = integration,
+            R_TEST_USER = opts$user, R_TEST_PW = opts$pw
+        )
+    )
 }
 
-test_crunch_int <- function() test_crunch(filter=NULL, test_type="integration")
-test_crunch_all <- function() test_crunch(filter=".*")
+test_crunch_int <- function() test_crunch(filter = NULL, test_type = "integration")
+test_crunch_all <- function() test_crunch(filter = ".*")
 
-setup_host_auth <- function (opts) {
+setup_host_auth <- function(opts) {
     if (!grepl("https?://.*", opts$host)) {
-        all_hosts <- c(crunch::envOrOption("crunchdev.test.hosts"),
-                       crunch::envOrOption("crunchdev.user.hosts"))
+        all_hosts <- c(
+            crunch::envOrOption("crunchdev.test.hosts"),
+            crunch::envOrOption("crunchdev.user.hosts")
+        )
         opts$host <- all_hosts[opts$host]
     }
 
@@ -99,7 +104,7 @@ shine_covr <- function(...) {
 #' @return nothing
 #'
 #' @export
-setupCrunch <- function (host, ...) {
+setupCrunch <- function(host, ...) {
     opts <- setup_host_auth(list("host" = host))
 
     if (is.na(opts$host)) {
@@ -115,8 +120,10 @@ setupCrunch <- function (host, ...) {
         "crunch.pw" = opts$pw
     )
 
-    message("Crunch will connect to ", getOption("crunch.api"),
-            " with ", getOption("crunch.email"))
+    message(
+        "Crunch will connect to ", getOption("crunch.api"),
+        " with ", getOption("crunch.email")
+    )
 
     return(invisible(opts))
 }
@@ -128,9 +135,11 @@ setupCrunch <- function (host, ...) {
 #'
 #' @param path Optional, the path of the file to style. If ommitted it is the
 #' active RStudio document.
-styleFile <- function(path) {
+style_file <- function(path) {
     if (missing(path)) {
-        path <- rstudioapi::getActiveDocumentContext()$path
+        path <- rstudioapi::getSourceEditorContext()$path
+        path <- gsub(getwd(), "", path.expand(path))
+        path <- gsub("^/", "", path)
     }
-    styler::style_file(transformers = styler::tidyverse_style(indent_by = 4))
+    styler::style_file(path, transformers = styler::tidyverse_style(indent_by = 4))
 }

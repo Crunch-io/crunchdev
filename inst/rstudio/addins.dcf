@@ -17,3 +17,8 @@ Name: Test active doc integration (Crunch)
 Description: Test Crunch package with all of the correct setup
 Binding: test_crunch_int
 Interactive: true
+
+Name: style active doc (Crunch)
+Description: Style the active document
+Binding: style_file
+Interactive: true
